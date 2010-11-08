@@ -20,10 +20,10 @@ clogs = os.path.join(os.getcwd(), '..', 'logs')
 form = cgi.FieldStorage()
 if "action" in form:
 	a = form.getvalue("action").lower()
-	if a == "check":
+	if a in ["check", "rebuild", "rebuild-all"]:
 	   f = file(cup, 'w')
            f.close()
-	elif a in ["rebuild", "rebuild-all"]:
+	if a in ["rebuild", "rebuild-all"]:
 	   f = file(cmake, 'w')
 	   if a == "rebuild-all": f.write("all")
 	   f.close()
@@ -49,12 +49,12 @@ if os.path.exists(cup):
    print "Update request issued at ", time.ctime(os.path.getctime(cup))
 else:
    print "No update request pending."
-print "</li></ul><form action='%s' method='get'>" % os.path.basename(sys.argv[0])
-print "<input type='submit' value='refresh' />"
-print "<input type='submit' name='action' value='check' />"
-print "<input type='submit' name='action' value='rebuild' />"
-print "<input type='submit' name='action' value='rebuild-all' />"
-print "</form><h3>Process logs</h3>"
+print "</li></ul><p><form action='%s' method='get'>" % os.path.basename(sys.argv[0])
+print "<input type='submit' value='refresh' />: refresh this page only.<br />"
+print "<input type='submit' name='action' value='check' />: check if files were updated, rebuild if any changes are found.<br />"
+print "<input type='submit' name='action' value='rebuild' />: update files and rebuild only out-of-date targets.<br />"
+print "<input type='submit' name='action' value='rebuild-all' />: update files and rebuild everything."
+print "</form></p><h3>Process logs</h3>"
 
 p = glob.glob(os.path.join(clogs, '*'))
 if p:
