@@ -14,12 +14,13 @@ import glob
 cdir = os.path.join(os.getcwd(), '..', 'control')
 cmake = os.path.join(cdir, 'domake')
 cup = os.path.join(cdir, 'doupdate')
+cmon = os.path.join(cdir, 'active')
 clogs = os.path.join(os.getcwd(), '..', 'logs')
 
 form = cgi.FieldStorage()
 if "action" in form:
 	a = form.getvalue("action").lower()
-	if a == "update":
+	if a == "check":
 	   f = file(cup, 'w')
            f.close()
 	elif a in ["rebuild", "rebuild-all"]:
@@ -28,6 +29,9 @@ if "action" in form:
 	   f.close()
 
 print "<html><head><title>Notes control interface</title></head><body>"
+if not os.path.exists(cmon):
+	print "<span style='font-weight: bold; color: red'>Monitor not active (check with sysadm!)</span>"
+	
 print "<ul><li>"
 if os.path.exists(cmake):
    print "Build request issued at ", time.ctime(os.path.getctime(cmake))
@@ -47,20 +51,20 @@ else:
    print "No update request pending."
 print "</li></ul><form action='%s' method='get'>" % os.path.basename(sys.argv[0])
 print "<input type='submit' value='refresh' />"
-print "<input type='submit' name='action' value='update' />"
+print "<input type='submit' name='action' value='check' />"
 print "<input type='submit' name='action' value='rebuild' />"
 print "<input type='submit' name='action' value='rebuild-all' />"
 print "</form><h3>Process logs</h3>"
 
 p = glob.glob(os.path.join(clogs, '*'))
 if p:
-	print "<table border='0'><tr><th>Log file</th><th>ctime</th><th>mtime</th></tr>"
+	print "<table border='0'><tr><th width='30%'>Log file</th><th width='20%'>ctime</th><th width='20%'>mtime</th></tr>"
 	p.sort(reverse=True)
 	for l in p:
 		if "bad" in l:
-			st = "style='color: red'"
+			st = "style='background-color: red'"
 		elif "running" in l:
-			st = "style='color: blue; font-weight: bold'"
+			st = "style='background-color: green; font-weight: bold'"
 		else:
 			st = "" 
 		ct = time.ctime(os.path.getctime(l))

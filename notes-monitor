@@ -4,11 +4,14 @@ import os
 import time
 import traceback
 import subprocess
+import sys
 
+os.chdir(os.path.dirname(sys.argv[0]))
 clogs = os.path.join(os.getcwd(), 'logs')
 ckeep = os.path.join(os.getcwd(), 'control', 'dokeep')
 cmake = os.path.join(os.getcwd(), 'control', 'domake')
 cup = os.path.join(os.getcwd(), 'control', 'doupdate')
+cmon = os.path.join(os.getcwd(), 'control', 'active')
 cnotes = os.path.join(os.getcwd(), '..', 'notes')
 
 def mkl(n):
@@ -17,7 +20,9 @@ def mkl(n):
 def mkt():
 	return time.strftime('%Y%m%d%H%M%S', time.gmtime())
 
-while True:
+try:
+  open(cmon, 'w').close()
+  while True:
 	time.sleep(5)
 	ts = mkt()
 	try:
@@ -50,21 +55,32 @@ while True:
 			code = subprocess.call(["svn","update"], stdout=ul, stderr=ul, cwd=cnotes)
 			if code == 0:
 				ul.close()			
-				f = file(n1).read()
-				if "Updating" in f:
-					dorebuild = True
-				if 'GNUmakefile' in f:
-					doall = True
+				if 'Updated to revision' in file(n1).read():
+					domake = True
 				if not dokeep: os.remove(n1)
 				else: os.rename(n1, mkl('%s.update' % ts))
 			else:
 				print >>ul, "Command terminated with exit code: ", code
 				ul.close()
 				os.rename(n1, mkl('%s.update.bad' % ts))
-		
+		if domake:
+			n2 = mkl('%s.build.running' % ts)
+			ul = open(n2, 'w', 0)
+			code = subprocess.call(["./rebuild.sh", str(doall)], stdout=ul, stderr=ul, cwd=cnotes)
+			if code == 0:
+				ul.close()
+				os.rename(n2, mkl('%s.build' % ts))
+			else:
+				print >>ul, "Command terminated with exit code: ", code
+				ul.close()
+				os.rename(n2, mkl('%s.build.bad' % ts))
+	
 
 	except:
 		f = open(mkl('monitor'), 'a')
 		print >>f, "--- %s ---" % ts
 		traceback.print_exc(file = f)
 		f.close()
+finally:
+	os.remove(cmon)
+
