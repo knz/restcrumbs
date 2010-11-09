@@ -58,7 +58,7 @@ print "</form></p><h3>Process logs</h3>"
 
 p = glob.glob(os.path.join(clogs, '*'))
 if p:
-	print "<table border='0'><tr><th width='30%'>Log file</th><th width='20%'>ctime</th><th width='20%'>mtime</th></tr>"
+	print "<table border='0'><tr><th width='30%'>Log file</th><th width='20%'>mtime</th></tr>"
 	p.sort(reverse=True)
 	for l in p:
 		if "bad" in l:
@@ -67,11 +67,10 @@ if p:
 			st = "style='background-color: green; font-weight: bold'"
 		else:
 			st = "" 
-		ct = time.ctime(os.path.getctime(l))
 		mt = time.ctime(os.path.getmtime(l))
 		bn = os.path.basename(l)
 		url = '../logs/%s' % bn
-		print "<tr><td %s><a href='%s'>%s</a></td><td>%s</td><td>%s</td></tr>" % (st, url, bn, ct, mt)
+		print "<tr><td %s><a href='%s'>%s</a></td><td>%s</td></tr>" % (st, url, bn, mt)
 	print "</table>"
 else:
 	print "<i>No process logs yet.</i>"
