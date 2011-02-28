@@ -1,0 +1,19 @@
+{% extends "!layout.html" %}
+{% set testt = _('Search') %}
+{% block relbaritems %}
+{% if title != testt %}
+    <li class="right">
+     <a href="{{ pagename }}.tex" accesskey="T">
+      <img style="vertical-align:middle;" src="_images/tex.png" /> latex
+     </a> {{ reldelim2 }}</li>
+    <li class="right">
+     <a href="{{ pagename }}.pdf" accesskey="P">
+      <img style="vertical-align:middle;" src="_images/printer.png" /> pdf
+     </a> {{ reldelim2 }}</li>
+    <li class="right">
+     <a href="{{ pagename }}.txt" accesskey="S">
+      <img style="vertical-align:middle;" src="_images/doc.png" /> source
+     </a> {{ reldelim2 }}</li>
+    {{ super() }}
+{% endif %}
+{% endblock %}

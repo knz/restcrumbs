@@ -1,0 +1,35 @@
+/* Stylesheet for pygments enhanced reStructured Text */
+/* ================================================== */
+
+/* :Author:    Guenter Milde */
+/* :Copyright: 2007 G. Milde */
+/*             This stylesheet is released under the GPL v. 2 or later */
+
+/* This stylesheet provides syntax highlight for documents generated with a */
+/* pygments_ enhanced reStructured Text -> html converter. */
+
+/* Import the default docutils style sheet */
+/* --------------------------------------- */
+/* :: */
+
+@import url("html4css1.css");         
+
+/* Indent the code block */
+/* --------------------- */
+
+/* Content copied from the `html4css1.css` rule for literal blocks. */
+/* Selector adapted to the output of Pygments_. :: */
+
+div.highlight {
+  margin-left: 2em ;
+  margin-right: 2em ;
+  background-color: #eeeeee
+  }
+
+
+/* Colour code blocks */
+/* ------------------ */
+
+@import url("pygments-default.css");
+
+/* .. _pygments:  http://pygments.org/ */
