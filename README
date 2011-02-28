@@ -1,0 +1,73 @@
+RestCrumbs
+==========
+
+This directory contains the RestCrumbs publisher.
+
+RestCrumbs, standing for reStructured Text Crumbs, are single-file
+text documents written using `reStructured Text`_ and intended to be
+published online to reflect thoughts, knowledge, opinions, and other
+matters expressible in written form. 
+
+.. _`reStructured Text`: http://docutils.sourceforge.net/rst.html
+
+The software supports versioning and linking of crumbs, and provides a
+*tool box* of editing and translation scripts for online publishing.
+
+The mission of this software is to:
+
+- make writing *easy* - "just text", no markup, for all simple documents;
+
+- make documents *historical* - the evolution of a document is exposed;
+
+- make documents *reusable* - the content can be copy-and-pasted in
+  other tools or transformed in other formats so they can be reused as
+  *parts* of other documents.
+
+This last mission item is what distinguishes this tool from online
+publishing platforms like WordPress that use HTML as a common format:
+reST documents can be transformed automatically into valid and
+properly-structured LaTeX code, OpenOffice documents, etc.
+
+
+The RestCrumbs publisher is free software. See the file LICENSE for
+usage and copying conditions.
+
+
+Usage and features
+------------------
+
+The software provides tools to:
+
+- resolve inter-crumb text links to working reST references;
+
+- generate static PDF and HTML versions of the documents;
+
+- generate a semi-dynamic web interface to view and download the
+  documents;
+
+- derive embeddable LaTeX code from crumbs, for example for further
+  manual collation in books, reports, etc.;
+
+- keep track and document the history of crumbs.
+
+The software assumes the existence of a *crumbs repository* (really,
+just a directory with a bunch of text files in it) set up using any
+third-party revision control system.
+
+The tools take the form of Unix shell scripts, Python scripts, and
+``make`` rules.
+
+Requirements
+------------
+
+This software depends on the following:
+
+- Python Docutils: http://docutils.sourceforge.net/
+
+- Sphinx Python Documentation Generator: http://sphinx.pocoo.org/
+
+- a recent TeX/LaTeX distribution;
+
+- other requirements related to the reST features used in crumbs,
+  e.g. pertaining to graphics, math writing, etc.
+
