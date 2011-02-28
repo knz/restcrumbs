@@ -1,0 +1,23 @@
+To use the monitor, place it in a location that can be served with
+HTTP.
+
+Then configure, for example with Apache::
+
+    <VirtualHost *:80>
+       ServerName notes.example.com
+       DocumentRoot /home/notes/www-publish
+       ScriptAlias /controller/cgi-bin /home/notes/controller/cgi-bin
+       Alias /controller /home/notes/controller
+       CustomLog ${APACHE_LOG_DIR}/notes.log combined
+       <Directory /home/notes/controller>
+            AuthType Basic
+            AuthName "Notes control"
+            AuthBasicProvider file
+            AuthUserFile /home/notes/htpasswd
+            Require user notes
+       </Directory>
+    </VirtualHost>
+
+The idea here is that the directory "www-publish" will contain the
+public-facing documents, whereas the special URL alias "/controller"
+needs authentication as it causes rebuilding the content.
